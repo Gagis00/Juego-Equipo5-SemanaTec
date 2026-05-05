@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SNAKE // NEON</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="scanlines"></div>
+
+  <div id="wrapper">
+    <header>
+      <div class="stat-block">
+        <span class="label">SCORE</span>
+        <span id="score">000000</span>
+      </div>
+      <div class="title-block">
+        <h1>SN<span class="blink">▓</span>KE</h1>
+        <div id="level-badge">LVL <span id="level">01</span></div>
+      </div>
+      <div class="stat-block right">
+        <span class="label">BEST</span>
+        <span id="best">000000</span>
+      </div>
+    </header>
+
+    <div id="canvas-wrap">
+      <canvas id="game"></canvas>
+      <div id="combo-display"></div>
+
+      <div id="overlay" class="visible">
+        <div id="overlay-content">
+          <div class="over-title" id="over-title">SNAKE // NEON</div>
+          <div class="over-sub" id="over-sub">Presiona ESPACIO o toca para iniciar</div>
+          <div class="over-score" id="over-score"></div>
+          <button id="start-btn">▶ PLAY</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="controls-hint">
+      <span>↑ ↓ ← →</span> mover &nbsp;|&nbsp; <span>P</span> pausar &nbsp;|&nbsp;
+      <span>ESPACIO</span> iniciar
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
