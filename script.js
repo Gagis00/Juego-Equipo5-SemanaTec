@@ -335,3 +335,5 @@ canvas.addEventListener('touchend', e => {
 // ─── INIT RENDER ───────────────────────────────────────────────────────────
 init();
 draw();
+
+//ya estaa creoo
