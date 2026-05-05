@@ -16,27 +16,6 @@ const startBtn    = document.getElementById('start-btn');
 const comboEl     = document.getElementById('combo-display');
 const canvasWrap  = document.getElementById('canvas-wrap');
 
-//configurción del canvas
-canvas.width = 1000;
-canvas.height = 500;
-// ─── CONFIG ────────────────────────────────────────────────────────────────
-const COLS = 26, ROWS = 26, CELL = 20;
-const BASE_INTERVAL = 140; // ms per tick at level 1
-
-// ─── DOM ───────────────────────────────────────────────────────────────────
-const canvas      = document.getElementById('game');
-const ctx         = canvas.getContext('2d');
-const scoreEl     = document.getElementById('score');
-const bestEl      = document.getElementById('best');
-const levelEl     = document.getElementById('level');
-const overlay     = document.getElementById('overlay');
-const overTitle   = document.getElementById('over-title');
-const overSub     = document.getElementById('over-sub');
-const overScore   = document.getElementById('over-score');
-const startBtn    = document.getElementById('start-btn');
-const comboEl     = document.getElementById('combo-display');
-const canvasWrap  = document.getElementById('canvas-wrap');
-
 canvas.width  = COLS * CELL;
 canvas.height = ROWS * CELL;
 
