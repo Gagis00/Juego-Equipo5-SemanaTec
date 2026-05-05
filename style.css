@@ -9,5 +9,6 @@ body {
 
 canvas {
   border: 2px solid #fff;
-  background: #000;
+  background: url('assets/grass.png') no-repeat center center;
+  background-size: cover;
 }
