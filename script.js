@@ -83,6 +83,31 @@ function sfxLevel() { [523, 659, 784, 1046].forEach((f,i) => setTimeout(() => pl
 // Sonido de movimiento: tono muy corto y grave (sutil)
 function sfxMove()  { playTone(110, 'square', 0.03, 0.04); }
 
+// Level color palette (main color per level)
+const LEVEL_COLORS = ['#00ff88', '#ff2d78', '#ffd166', '#6a4cff', '#33c3ff', '#ff7ab6', '#8aff6a'];
+
+// Return palette variants for a given level
+function paletteForLevel(l) {
+  const base = LEVEL_COLORS[(l - 1) % LEVEL_COLORS.length];
+  const light = lerpColor(base, '#ffffff', 0.35);// 
+
+  const dark  = lerpColor(base, '#000000', 0.45);
+  const foodInner = lerpColor(base, '#ffffff', 0.55);
+  return { base, light, dark, foodInner };
+}
+
+// Level color palette (main color per level)
+const LEVEL_COLORS = ['#00ff88', '#ff2d78', '#ffd166', '#6a4cff', '#33c3ff', '#ff7ab6', '#8aff6a'];
+
+// Return palette variants for a given level
+function paletteForLevel(l) {
+  const base = LEVEL_COLORS[(l - 1) % LEVEL_COLORS.length];
+  const light = lerpColor(base, '#ffffff', 0.35);
+  const dark  = lerpColor(base, '#000000', 0.45);
+  const foodInner = lerpColor(base, '#ffffff', 0.55);
+  return { base, light, dark, foodInner };
+}
+
 // INICIALIZACIÓN
 // Resetea todas las variables al estado inicial antes de cada partida.
 function init() {
@@ -97,6 +122,7 @@ function init() {
   // Leemos el mejor score guardado en el navegador (persiste entre sesiones)
   best     = parseInt(localStorage.getItem('snakeBest') || '0');
   updateHUD();
+  applyPaletteToCSS(level);
   spawnFood(); // Generamos la primera comida
 }
 
@@ -168,6 +194,7 @@ function tick() {
       clearInterval(gameLoop);
       // Reducimos el intervalo (más rápido) con un mínimo de 50ms
       gameLoop = setInterval(tick, Math.max(50, BASE_INTERVAL - (level - 1) * 12));
+      applyPaletteToCSS(level);
     }
   } else {
     // Si no comió, eliminamos el último segmento (la cola se mueve hacia adelante)
@@ -325,7 +352,6 @@ function spawnParticles(x, y, color, n = 12) {
   }
 }
 
-// Crea un elemento HTML flotante con el texto de puntos que se anima con CSS
 function showScorePop(x, y, text) {
   const el = document.createElement('div');
   el.className = 'score-pop';
