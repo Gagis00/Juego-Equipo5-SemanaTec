@@ -4,47 +4,68 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SNAKE // NEON</title>
+  <!-- Enlazamos la hoja de estilos externa -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Capa decorativa encima de todo: simula el efecto de líneas de un monitor CRT antiguo -->
   <div id="scanlines"></div>
 
+  <!-- Contenedor principal que centra todo el juego en pantalla -->
   <div id="wrapper">
+
+    <!-- Barra superior con estadísticas del juego -->
     <header>
+      <!-- Bloque izquierdo: puntuación actual -->
       <div class="stat-block">
         <span class="label">SCORE</span>
-        <span id="score">000000</span>
+        <span id="score">000000</span> <!-- Se actualiza dinámicamente con JS -->
       </div>
+
+      <!-- Bloque central: título del juego y nivel actual -->
       <div class="title-block">
-        <h1>SN<span class="blink">▓</span>KE</h1>
+        <h1>SN<span class="blink">▓</span>KE</h1> <!-- El bloque parpadea con CSS -->
         <div id="level-badge">LVL <span id="level">01</span></div>
       </div>
+
+      <!-- Bloque derecho: mejor puntuación guardada -->
       <div class="stat-block right">
         <span class="label">BEST</span>
-        <span id="best">000000</span>
+        <span id="best">000000</span> <!-- Se lee de localStorage -->
       </div>
     </header>
 
+    <!-- Área donde vive el juego: canvas + elementos flotantes encima -->
     <div id="canvas-wrap">
+
+      <!-- El canvas es donde se dibuja TODO el juego (serpiente, comida, partículas, grid) -->
       <canvas id="game"></canvas>
+
+      <!-- Texto flotante que aparece cuando el jugador encadena combos -->
       <div id="combo-display"></div>
 
+      <!-- Pantalla superpuesta para inicio, pausa y game over -->
       <div id="overlay" class="visible">
         <div id="overlay-content">
           <div class="over-title" id="over-title">SNAKE // NEON</div>
           <div class="over-sub" id="over-sub">Presiona ESPACIO o toca para iniciar</div>
-          <div class="over-score" id="over-score"></div>
+          <div class="over-score" id="over-score"></div> <!-- Muestra el score final -->
           <button id="start-btn">▶ PLAY</button>
         </div>
       </div>
+
     </div>
 
+    <!-- Pequeña guía de controles en la parte inferior -->
     <div id="controls-hint">
       <span>↑ ↓ ← →</span> mover &nbsp;|&nbsp; <span>P</span> pausar &nbsp;|&nbsp;
       <span>ESPACIO</span> iniciar
     </div>
+
   </div>
 
+  <!-- Cargamos el script al final para que el HTML ya esté listo cuando JS lo lea -->
   <script src="script.js"></script>
 </body>
 </html>
