@@ -1,34 +1,22 @@
-/* ── FUENTES ─────────────────────────────────────────────────────────────────
-   Importamos dos fuentes de Google Fonts:
-   - Share Tech Mono: monoespaciada para los textos generales
-   - Orbitron: futurista/retro para títulos y números grandes
-*/
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
 
-/* ── VARIABLES GLOBALES ───────────────────────────────────────────────────────
-   Definimos los colores y sombras neón aquí para reutilizarlos fácilmente.
-   Si queremos cambiar un color, solo lo cambiamos aquí y afecta a todo.
-*/
 :root {
-  --bg: #050810;               /* Fondo casi negro azulado */
-  --grid: #0a1020;             /* Color del grid del canvas */
-  --neon-green: #00ff88;       /* Verde neón: serpiente y bordes */
-  --neon-blue: #00cfff;        /* Azul neón: etiquetas */
-  --neon-pink: #ff2d78;        /* Rosa neón: comida */
-  --neon-yellow: #ffe600;      /* Amarillo: combos y nivel */
+  --bg: #050810;
+  --grid: #0a1020;
+  --neon-green: #00ff88;
+  --neon-blue: #00cfff;
+  --neon-pink: #ff2d78;
+  --neon-yellow: #ffe600;
   --snake-head: #00ff88;
   --snake-body: #00cc66;
   --food-color: #ff2d78;
-  /* Sombras de brillo (glow) para el efecto neón */
   --glow-green: 0 0 8px #00ff88, 0 0 20px #00ff8866;
-  --glow-pink:  0 0 8px #ff2d78, 0 0 20px #ff2d7866;
-  --glow-blue:  0 0 8px #00cfff, 0 0 20px #00cfff55;
+  --glow-pink: 0 0 8px #ff2d78, 0 0 20px #ff2d7866;
+  --glow-blue: 0 0 8px #00cfff, 0 0 20px #00cfff55;
 }
 
-/* Reset básico: eliminamos márgenes y padding por defecto del navegador */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* Fondo oscuro, texto blanco, centrado total con flexbox */
 body {
   background: var(--bg);
   color: #fff;
@@ -37,14 +25,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* Evita scroll inesperado */
+  overflow: hidden;
 }
 
-/* ── EFECTO CRT SCANLINES ────────────────────────────────────────────────────
-   Una capa fija encima de todo con líneas horizontales semi-transparentes.
-   Simula el efecto visual de un monitor de tubo (CRT) de los 80s.
-   pointer-events:none hace que no interfiera con los clics del usuario.
-*/
+/* CRT scanlines */
 #scanlines {
   pointer-events: none;
   position: fixed;
@@ -57,10 +41,9 @@ body {
     rgba(0,0,0,0.18) 4px
   );
   z-index: 999;
-  mix-blend-mode: multiply; /* Se mezcla con lo que hay debajo sin tapar colores */
+  mix-blend-mode: multiply;
 }
 
-/* Contenedor principal: columna centrada con espacio entre elementos */
 #wrapper {
   display: flex;
   flex-direction: column;
@@ -69,9 +52,7 @@ body {
   padding: 20px;
 }
 
-/* ── HEADER ──────────────────────────────────────────────────────────────────
-   Tres bloques en fila: score | título | best score
-*/
+/* HEADER */
 header {
   display: flex;
   align-items: center;
@@ -80,16 +61,14 @@ header {
   max-width: 520px;
 }
 
-/* Bloque de estadística: etiqueta pequeña + número grande */
 .stat-block {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   min-width: 100px;
 }
-.stat-block.right { align-items: flex-end; } /* El de la derecha se alinea al final */
+.stat-block.right { align-items: flex-end; }
 
-/* Etiqueta pequeña tipo "SCORE" o "BEST" */
 .label {
   font-size: 10px;
   letter-spacing: 4px;
@@ -97,7 +76,6 @@ header {
   text-shadow: var(--glow-blue);
 }
 
-/* Número grande con fuente Orbitron y brillo verde */
 .stat-block span:last-child {
   font-family: 'Orbitron', monospace;
   font-size: 22px;
@@ -107,9 +85,10 @@ header {
   letter-spacing: 2px;
 }
 
-.title-block { text-align: center; }
+.title-block {
+  text-align: center;
+}
 
-/* Título principal con triple capa de glow (blanco + verde) */
 h1 {
   font-family: 'Orbitron', monospace;
   font-size: 32px;
@@ -119,14 +98,12 @@ h1 {
   text-shadow: 0 0 10px #fff, 0 0 30px var(--neon-green), 0 0 60px var(--neon-green);
 }
 
-/* El bloque ▓ dentro del título parpadea infinitamente */
 .blink {
   color: var(--neon-green);
-  animation: blink 1s step-end infinite; /* step-end: parpadeo brusco, no suave */
+  animation: blink 1s step-end infinite;
 }
 @keyframes blink { 50% { opacity: 0; } }
 
-/* Badge de nivel con color amarillo neón */
 #level-badge {
   font-size: 11px;
   letter-spacing: 4px;
@@ -136,49 +113,40 @@ h1 {
   margin-top: 2px;
 }
 
-/* ── CANVAS ──────────────────────────────────────────────────────────────────
-   El canvas tiene borde neón verde y sombra interna sutil.
-   position:relative permite posicionar elementos encima (overlay, combo).
-*/
+/* CANVAS AREA */
 #canvas-wrap {
   position: relative;
   border: 2px solid var(--neon-green);
   box-shadow: var(--glow-green), inset 0 0 40px rgba(0,255,136,0.04);
   border-radius: 4px;
-  overflow: hidden; /* El overlay no se sale del borde redondeado */
+  overflow: hidden;
   background: var(--grid);
 }
 
 canvas {
   display: block;
-  image-rendering: pixelated; /* Sin suavizado: aspecto pixel art nítido */
+  image-rendering: pixelated;
 }
 
-/* ── COMBO DISPLAY ───────────────────────────────────────────────────────────
-   Texto flotante centrado que aparece cuando hay combo >= 2.
-   Usa opacity para aparecer/desaparecer suavemente.
-*/
+/* COMBO */
 #combo-display {
   position: absolute;
   top: 12px;
   left: 50%;
-  transform: translateX(-50%); /* Centrado horizontal exacto */
+  transform: translateX(-50%);
   font-family: 'Orbitron', monospace;
   font-size: 15px;
   font-weight: 700;
   color: var(--neon-yellow);
   text-shadow: 0 0 10px var(--neon-yellow);
   letter-spacing: 3px;
-  pointer-events: none; /* No bloquea clics */
+  pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s;
 }
-#combo-display.show { opacity: 1; } /* JS agrega esta clase para mostrarlo */
+#combo-display.show { opacity: 1; }
 
-/* ── OVERLAY ─────────────────────────────────────────────────────────────────
-   Pantalla semitransparente que cubre el canvas.
-   Usamos opacity + pointer-events para mostrarlo/ocultarlo sin removerlo del DOM.
-*/
+/* OVERLAY */
 #overlay {
   position: absolute;
   inset: 0;
@@ -189,11 +157,11 @@ canvas {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.3s;
-  backdrop-filter: blur(2px); /* Desenfoque sutil del fondo */
+  backdrop-filter: blur(2px);
 }
 #overlay.visible {
   opacity: 1;
-  pointer-events: all; /* Solo cuando es visible se pueden hacer clics */
+  pointer-events: all;
 }
 
 #overlay-content {
@@ -204,7 +172,6 @@ canvas {
   gap: 12px;
 }
 
-/* Título grande del overlay (SNAKE // NEON, GAME OVER, PAUSE) */
 .over-title {
   font-family: 'Orbitron', monospace;
   font-size: 28px;
@@ -214,7 +181,6 @@ canvas {
   letter-spacing: 4px;
 }
 
-/* Subtítulo con instrucciones */
 .over-sub {
   font-size: 13px;
   color: var(--neon-blue);
@@ -222,17 +188,15 @@ canvas {
   text-shadow: var(--glow-blue);
 }
 
-/* Score final mostrado en game over */
 .over-score {
   font-family: 'Orbitron', monospace;
   font-size: 18px;
   color: var(--neon-yellow);
   text-shadow: 0 0 10px var(--neon-yellow);
   letter-spacing: 3px;
-  min-height: 28px; /* Reserva espacio aunque esté vacío */
+  min-height: 28px;
 }
 
-/* Botón de PLAY / RETRY con estética neón */
 #start-btn {
   margin-top: 8px;
   font-family: 'Orbitron', monospace;
@@ -249,25 +213,23 @@ canvas {
   border-radius: 2px;
   transition: background 0.2s, color 0.2s;
 }
-/* Al pasar el mouse se invierte: fondo verde, texto oscuro */
 #start-btn:hover {
   background: var(--neon-green);
   color: var(--bg);
   text-shadow: none;
 }
 
-/* Texto de ayuda de controles, casi invisible (decorativo) */
+/* CONTROLS HINT */
 #controls-hint {
   font-size: 11px;
   color: #334;
   letter-spacing: 2px;
 }
-#controls-hint span { color: #556; }
+#controls-hint span {
+  color: #556;
+}
 
-/* ── SCORE POP ───────────────────────────────────────────────────────────────
-   Elemento creado dinámicamente en JS cada vez que se come la comida.
-   Flota hacia arriba y desaparece con una animación CSS.
-*/
+/* Floating score pop */
 .score-pop {
   position: absolute;
   font-family: 'Orbitron', monospace;
